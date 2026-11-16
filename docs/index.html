@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Regulatory Reporting Control Tower | 2015Q1</title>
+<style>
+:root {
+  color-scheme: light;
+  --page: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --axis: #c3c2b7; --ring: rgba(11,11,11,0.10);
+  --series: #2a78d6; --good: #0ca30c; --good-text: #006300; --warn: #fab219; --bad: #d03b3b;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --axis: #383835; --ring: rgba(255,255,255,0.10);
+    --series: #3987e5; --good: #0ca30c; --good-text: #0ca30c; --warn: #fab219; --bad: #d03b3b;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink);
+  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 32px 20px 48px; }
+header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; align-items: flex-end; }
+h1 { font-size: 26px; line-height: 1.2; margin: 0 0 6px; }
+h2 { font-size: 18px; margin: 0 0 4px; }
+.lede { color: var(--ink-2); margin: 0; max-width: 680px; }
+.meta { color: var(--ink-2); font-size: 13px; text-align: right; }
+.meta a { color: var(--series); }
+.badge { display: inline-block; padding: 4px 12px; border-radius: 999px; font-weight: 600; font-size: 14px;
+  border: 1px solid var(--ring); background: var(--surface); margin-bottom: 6px; }
+.badge .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 24px 0; }
+.tile { background: var(--surface); border: 1px solid var(--ring); border-radius: 12px; padding: 14px 16px; }
+.tile-value { font-size: 28px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.tile-label { font-size: 14px; font-weight: 600; }
+.tile-sub { font-size: 12.5px; color: var(--ink-2); }
+.card { background: var(--surface); border: 1px solid var(--ring); border-radius: 12px; padding: 20px; margin-top: 16px; }
+.card .sub { color: var(--ink-2); font-size: 14px; margin: 0 0 16px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid2 .card { margin-top: 0; min-width: 0; }
+.row2 { margin-top: 16px; }
+@media (max-width: 820px) { .grid2 { grid-template-columns: 1fr; } .meta { text-align: left; } }
+.flow { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; }
+@media (max-width: 820px) { .flow { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 520px) { .flow { grid-template-columns: repeat(2, 1fr); } .hbar-row { grid-template-columns: 40% 1fr 64px; } }
+.step { border: 1px solid var(--axis); border-radius: 10px; padding: 10px 8px; text-align: center; position: relative; }
+.step-num { display: block; font-size: 12px; color: var(--muted); }
+.step-name { display: block; font-weight: 600; font-size: 14px; }
+.step-ctl { display: block; font-size: 12px; color: var(--ink-2); }
+.step-blocked { border-style: dashed; }
+.step-blocked .step-ctl { color: var(--bad); font-weight: 600; }
+.hbar-row { display: grid; grid-template-columns: minmax(120px, 38%) 1fr 76px; gap: 10px; align-items: center; margin: 6px 0; }
+.hbar-label { font-size: 13.5px; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hbar-value { font-size: 13.5px; text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.hbar-track { position: relative; height: 22px; border-left: 1px solid var(--axis); cursor: default; }
+.hbar-track.diverging { border-left: none; background: linear-gradient(var(--grid), var(--grid)) center/100% 1px no-repeat; }
+.hbar { position: absolute; top: 4px; bottom: 4px; left: 0; border-radius: 0 4px 4px 0; }
+.dbar { position: absolute; top: 4px; bottom: 4px; border-radius: 4px; }
+.zero { position: absolute; left: 50%; top: 0; bottom: 0; border-left: 1px solid var(--axis); }
+.series { background: var(--series); }
+.warn-fill { background: var(--warn); }
+.hbar-marker { position: absolute; top: -2px; bottom: -2px; border-left: 2px dashed var(--ink-2); }
+.marker-note { font-size: 12.5px; color: var(--ink-2); margin-bottom: 6px; }
+.marker-swatch { display: inline-block; width: 0; height: 12px; border-left: 2px dashed var(--ink-2); margin: 0 8px -2px 2px; }
+.hbar-track:hover .hbar, .hbar-track:hover .dbar { filter: brightness(1.12); }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { text-align: left; font-weight: 600; color: var(--ink-2); border-bottom: 1px solid var(--axis); padding: 6px 8px; white-space: nowrap; }
+td { border-bottom: 1px solid var(--grid); padding: 6px 8px; vertical-align: top; }
+td:first-child { white-space: nowrap; }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+.chip { display: inline-block; white-space: nowrap; font-size: 12.5px; font-weight: 600; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--ring); }
+.chip.good span { color: var(--good); } .chip.warn span { color: var(--warn); } .chip.bad span { color: var(--bad); }
+.notes { margin: 12px 0 0; padding-left: 18px; font-size: 14px; }
+.notes li { margin-bottom: 6px; }
+.muted { color: var(--ink-2); font-size: 13px; }
+footer { margin-top: 28px; color: var(--ink-2); font-size: 13px; }
+footer a { color: var(--series); }
+#tip { position: fixed; pointer-events: none; z-index: 10; max-width: 320px; padding: 8px 10px; font-size: 13px;
+  background: var(--surface); color: var(--ink); border: 1px solid var(--ring); border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.12); display: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div>
+    <h1>Regulatory Reporting Control Tower</h1>
+    <p class="lede">Quarterly regulatory and statistical reporting cycle for an auto insurer: validation, remediation, report production, GL reconciliation, controls and a checksummed submission package.</p>
+  </div>
+  <div class="meta">
+    <div class="badge"><span class="dot" style="background:var(--good)"></span>2015Q1 &middot; Ready for sign-off</div><br>
+    Run 2015Q1-20261116-172853<br>
+    <a href="https://github.com/Abuabrar09/Insurance-Regulatory-Reporting-Control-Tower">View code on GitHub</a>
+  </div>
+</header>
+
+<section class="tiles"><div class="tile"><div class="tile-value">22/22</div><div class="tile-label">Data quality rules pass</div><div class="tile-sub">Raw extract: 17/22 &middot; blocked</div></div><div class="tile"><div class="tile-value">16</div><div class="tile-label">Logged corrections</div><div class="tile-sub">Before/after audit trail</div></div><div class="tile"><div class="tile-value">7/9</div><div class="tile-label">GL lines tie exactly</div><div class="tile-sub">2 explained breaks</div></div><div class="tile"><div class="tile-value">9/10</div><div class="tile-label">Controls pass</div><div class="tile-sub">CTL-09 awaits sign-off</div></div><div class="tile"><div class="tile-value">6/6</div><div class="tile-label">Reports on track</div><div class="tile-sub">As of 2015-04-06</div></div><div class="tile"><div class="tile-value">16</div><div class="tile-label">Files checksummed</div><div class="tile-sub">SHA-256 verified</div></div></section>
+
+<section class="card">
+  <h2>The cycle stops at any blocking failure</h2>
+  <p class="sub">Eight steps run with one command. The raw extract was blocked at step 2 and passed only after logged corrections.</p>
+  <ol class="flow"><li class="step "><span class="step-num">1</span><span class="step-name">Load</span><span class="step-ctl">CTL-01</span></li><li class="step step-blocked"><span class="step-num">2</span><span class="step-name">Validate raw</span><span class="step-ctl">Blocked</span></li><li class="step "><span class="step-num">3</span><span class="step-name">Remediate</span><span class="step-ctl">16 fixes</span></li><li class="step "><span class="step-num">4</span><span class="step-name">Validate clean</span><span class="step-ctl">CTL-02/03</span></li><li class="step "><span class="step-num">5</span><span class="step-name">Produce</span><span class="step-ctl">CTL-04</span></li><li class="step "><span class="step-num">6</span><span class="step-name">Reconcile</span><span class="step-ctl">CTL-05/06</span></li><li class="step "><span class="step-num">7</span><span class="step-name">Controls</span><span class="step-ctl">CTL-07/10</span></li><li class="step "><span class="step-num">8</span><span class="step-name">Submit</span><span class="step-ctl">CTL-08</span></li></ol>
+</section>
+
+<div class="grid2 row2">
+<section class="card">
+  <h2>Raw extract failed 5 rules; all pass after remediation</h2>
+  <p class="sub">Rows failing each rule on the raw extract. After remediation every rule shows 0.</p>
+  <div class="hbar-row"><div class="hbar-label">DQ-02 policy_state not null</div><div class="hbar-track" data-tip="DQ-02: 5 rows failed on the raw extract; 0 after remediation. "><div class="hbar series" style="width:100.00%"></div></div><div class="hbar-value">5 rows</div></div><div class="hbar-row"><div class="hbar-label">DQ-06 policy_number is unique</div><div class="hbar-track" data-tip="DQ-06: 4 rows failed on the raw extract; 0 after remediation. "><div class="hbar series" style="width:80.00%"></div></div><div class="hbar-value">4 rows</div></div><div class="hbar-row"><div class="hbar-label">DQ-08 policy_annual_premium &gt; 0</div><div class="hbar-track" data-tip="DQ-08: 3 rows failed on the raw extract; 0 after remediation. "><div class="hbar series" style="width:60.00%"></div></div><div class="hbar-value">3 rows</div></div><div class="hbar-row"><div class="hbar-label">DQ-10 total_claim_amount = injury + property + vehicle</div><div class="hbar-track" data-tip="DQ-10: 3 rows failed on the raw extract; 0 after remediation. "><div class="hbar series" style="width:60.00%"></div></div><div class="hbar-value">3 rows</div></div><div class="hbar-row"><div class="hbar-label">DQ-11 incident_date &gt;= policy_bind_date</div><div class="hbar-track" data-tip="DQ-11: 3 rows failed on the raw extract; 0 after remediation. 1 approved exception(s)"><div class="hbar series" style="width:60.00%"></div></div><div class="hbar-value">3 rows</div></div>
+  <div class="table-wrap"><table><thead><tr><th class="">Rule</th><th class="num">Fixes</th><th class="">Action</th></tr></thead><tbody><tr><td class="">DQ-02</td><td class="num">5</td><td class="">Corrected from policy admin system</td></tr><tr><td class="">DQ-06</td><td class="num">2</td><td class="">Dropped exact duplicate extract row</td></tr><tr><td class="">DQ-08</td><td class="num">3</td><td class="">Sign error confirmed with Accounting</td></tr><tr><td class="">DQ-10</td><td class="num">3</td><td class="">Recomputed from claim components; confirmed with Claims</td></tr><tr><td class="">DQ-11</td><td class="num">3</td><td class="">Corrected from policy admin system</td></tr></tbody></table></div>
+  <ul class="notes"><li><strong>Approved exception:</strong> Incident date 2015-02-02 is 20 days before policy bind date 2015-02-22 in source data. Referred to Claims and Underwriting for coverage review; claim kept in reporting until review concludes.</li></ul>
+</section>
+<section class="card">
+  <h2>Unknown values stay under their warning limits</h2>
+  <p class="sub">Share of records with &ldquo;?&rdquo; in fields that are not used in reports (DQ-18 to DQ-20).</p>
+  <div class="marker-note"><span class="marker-swatch"></span>Warning limit for each field</div><div class="hbar-row"><div class="hbar-label">police_report_available</div><div class="hbar-track" data-tip="police_report_available: 34.3% unknown ('?'); limit 40%"><div class="hbar series" style="width:34.30%"></div><div class="hbar-marker" style="left:40%"></div></div><div class="hbar-value">34.3%</div></div><div class="hbar-row"><div class="hbar-label">property_damage</div><div class="hbar-track" data-tip="property_damage: 36.0% unknown ('?'); limit 40%"><div class="hbar series" style="width:36.00%"></div><div class="hbar-marker" style="left:40%"></div></div><div class="hbar-value">36.0%</div></div><div class="hbar-row"><div class="hbar-label">collision_type</div><div class="hbar-track" data-tip="collision_type: 17.8% unknown ('?'); limit 25%"><div class="hbar series" style="width:17.80%"></div><div class="hbar-marker" style="left:25%"></div></div><div class="hbar-value">17.8%</div></div>
+  <h2 style="margin-top:24px">Every report is on track for its due date</h2>
+  <p class="sub">Business days left as of 2015-04-06.</p>
+  <div class="marker-note"><span class="marker-swatch"></span>Ready at least 5 business days before due (CTL-07)</div><div class="hbar-row"><div class="hbar-label">RPT-01 State Premium &amp; Loss Summary</div><div class="hbar-track" data-tip="RPT-01 due 2015-05-15: 29 business days left (On track)"><div class="hbar series" style="width:72.50%"></div><div class="hbar-marker" style="left:12.50%"></div></div><div class="hbar-value">29 days</div></div><div class="hbar-row"><div class="hbar-label">RPT-02 Claims Statistical Report</div><div class="hbar-track" data-tip="RPT-02 due 2015-05-30: 40 business days left (On track)"><div class="hbar series" style="width:100.00%"></div><div class="hbar-marker" style="left:12.50%"></div></div><div class="hbar-value">40 days</div></div><div class="hbar-row"><div class="hbar-label">RPT-03 Market Conduct Claims Report</div><div class="hbar-track" data-tip="RPT-03 due 2015-05-15: 29 business days left (On track)"><div class="hbar series" style="width:72.50%"></div><div class="hbar-marker" style="left:12.50%"></div></div><div class="hbar-value">29 days</div></div><div class="hbar-row"><div class="hbar-label">RPT-04 Fraud Referral Summary</div><div class="hbar-track" data-tip="RPT-04 due 2015-04-30: 18 business days left (On track)"><div class="hbar series" style="width:45.00%"></div><div class="hbar-marker" style="left:12.50%"></div></div><div class="hbar-value">18 days</div></div><div class="hbar-row"><div class="hbar-label">RPT-05 Quarterly Loss Ratio Report</div><div class="hbar-track" data-tip="RPT-05 due 2015-04-15: 7 business days left (On track)"><div class="hbar series" style="width:17.50%"></div><div class="hbar-marker" style="left:12.50%"></div></div><div class="hbar-value">7 days</div></div><div class="hbar-row"><div class="hbar-label">RPT-06 Regulator Data Call</div><div class="hbar-track" data-tip="RPT-06 due 2015-04-20: 10 business days left (On track)"><div class="hbar series" style="width:25.00%"></div><div class="hbar-marker" style="left:12.50%"></div></div><div class="hbar-value">10 days</div></div>
+</section>
+</div>
+
+<section class="card">
+  <h2>7 of 9 GL lines tie; the 2 breaks are one $2,500 misposting</h2>
+  <p class="sub">Report value minus general ledger, by state and account. Tolerance $1.00 (BR-09). Bars away from zero are breaks.</p>
+  <div class="hbar-row"><div class="hbar-label">IL Premium Earned</div><div class="hbar-track diverging" data-tip="IL Premium Earned: report $105,889.95 vs GL $105,889.95 = +0.00 (PASS)"><div class="zero"></div></div><div class="hbar-value">+0.00</div></div><div class="hbar-row"><div class="hbar-label">IL Losses Paid</div><div class="hbar-track diverging" data-tip="IL Losses Paid: report $12,893,023.31 vs GL $12,895,523.31 = -2,500.00 (BREAK - EXPLAINED)"><div class="zero"></div><div class="dbar warn-fill" style="left:0.00%;width:50.00%"></div></div><div class="hbar-value">-2,500.00</div></div><div class="hbar-row"><div class="hbar-label">IL Loss Reserves</div><div class="hbar-track diverging" data-tip="IL Loss Reserves: report $3,211,026.69 vs GL $3,211,026.69 = +0.00 (PASS)"><div class="zero"></div></div><div class="hbar-value">+0.00</div></div><div class="hbar-row"><div class="hbar-label">IN Premium Earned</div><div class="hbar-track diverging" data-tip="IN Premium Earned: report $97,293.07 vs GL $97,293.07 = +0.00 (PASS)"><div class="zero"></div></div><div class="hbar-value">+0.00</div></div><div class="hbar-row"><div class="hbar-label">IN Losses Paid</div><div class="hbar-track diverging" data-tip="IN Losses Paid: report $11,394,546.75 vs GL $11,392,046.75 = +2,500.00 (BREAK - EXPLAINED)"><div class="zero"></div><div class="dbar warn-fill" style="left:50.00%;width:50.00%"></div></div><div class="hbar-value">+2,500.00</div></div><div class="hbar-row"><div class="hbar-label">IN Loss Reserves</div><div class="hbar-track diverging" data-tip="IN Loss Reserves: report $3,017,823.25 vs GL $3,017,823.25 = +0.00 (PASS)"><div class="zero"></div></div><div class="hbar-value">+0.00</div></div><div class="hbar-row"><div class="hbar-label">OH Premium Earned</div><div class="hbar-track diverging" data-tip="OH Premium Earned: report $110,918.51 vs GL $110,918.52 = -0.01 (PASS)"><div class="zero"></div><div class="dbar series" style="left:50.00%;width:0.00%"></div></div><div class="hbar-value">-0.01</div></div><div class="hbar-row"><div class="hbar-label">OH Losses Paid</div><div class="hbar-track diverging" data-tip="OH Losses Paid: report $11,788,149.08 vs GL $11,788,149.08 = +0.00 (PASS)"><div class="zero"></div></div><div class="hbar-value">+0.00</div></div><div class="hbar-row"><div class="hbar-label">OH Loss Reserves</div><div class="hbar-track diverging" data-tip="OH Loss Reserves: report $3,938,230.92 vs GL $3,938,230.92 = +0.00 (PASS)"><div class="zero"></div></div><div class="hbar-value">+0.00</div></div>
+  <ul class="notes"><li><strong>IL Losses Paid -2,500.00</strong>: $2,500 claim payment for an Indiana policy was posted to the Illinois losses-paid account; report figures are correct, GL is wrong <span class="muted">Owner: Accounting &middot; Correcting journal entry raised</span></li><li><strong>IN Losses Paid +2,500.00</strong>: Offsetting side of the IL misposting: $2,500 Indiana claim payment missing from the Indiana losses-paid account <span class="muted">Owner: Accounting &middot; Correcting journal entry raised</span></li></ul>
+  <div class="table-wrap"><table><thead><tr><th class="">Cross-report check</th><th class="">Report</th><th class="">Ties to</th><th class="num">Difference</th><th class="">CTL-06</th></tr></thead><tbody><tr><td class="">Incurred losses</td><td class="">RPT-01</td><td class="">RPT-02</td><td class="num">0.0</td><td><span class="chip good"><span aria-hidden="true">&#10003;</span> PASS</span></td></tr><tr><td class="">Incurred losses</td><td class="">RPT-01</td><td class="">RPT-05</td><td class="num">0.0</td><td><span class="chip good"><span aria-hidden="true">&#10003;</span> PASS</span></td></tr><tr><td class="">Earned premium</td><td class="">RPT-01</td><td class="">RPT-05</td><td class="num">0.0</td><td><span class="chip good"><span aria-hidden="true">&#10003;</span> PASS</span></td></tr><tr><td class="">Claim count</td><td class="">RPT-01</td><td class="">RPT-03</td><td class="num">0.0</td><td><span class="chip good"><span aria-hidden="true">&#10003;</span> PASS</span></td></tr><tr><td class="">Claim count</td><td class="">RPT-03</td><td class="">RPT-04</td><td class="num">0.0</td><td><span class="chip good"><span aria-hidden="true">&#10003;</span> PASS</span></td></tr></tbody></table></div>
+</section>
+
+<div class="grid2 row2">
+<section class="card">
+  <h2>State premium &amp; loss summary (RPT-01)</h2>
+  <p class="sub">Every column ties to source (CTL-04); 1 of 6 reports within the $0.05 rounding tolerance.</p>
+  <div class="table-wrap"><table><thead><tr><th class="">State</th><th class="num">Earned premium</th><th class="num">Incurred</th><th class="num">Paid</th><th class="num">Reserves</th></tr></thead><tbody><tr><td class="">IL</td><td class="num">$105,890</td><td class="num">$17,861,330</td><td class="num">$12,893,023</td><td class="num">$3,211,027</td></tr><tr><td class="">IN</td><td class="num">$97,293</td><td class="num">$16,432,160</td><td class="num">$11,394,547</td><td class="num">$3,017,823</td></tr><tr><td class="">OH</td><td class="num">$110,919</td><td class="num">$18,468,450</td><td class="num">$11,788,149</td><td class="num">$3,938,231</td></tr></tbody></table></div>
+  <p class="muted">Loss ratios (IL 169x, IN 169x, OH 166x) are far above real-world levels because every policy in the source data has a claim.</p>
+</section>
+<section class="card">
+  <h2>Claims handling and fraud referrals (RPT-03, RPT-04)</h2>
+  <p class="sub">Share of claims referred for suspected fraud, by state.</p>
+  <div class="hbar-row"><div class="hbar-label">Illinois</div><div class="hbar-track" data-tip="IL: 77 of 338 claims referred (22.8%)"><div class="hbar series" style="width:80.03%"></div></div><div class="hbar-value">22.8%</div></div><div class="hbar-row"><div class="hbar-label">Indiana</div><div class="hbar-track" data-tip="IN: 79 of 310 claims referred (25.5%)"><div class="hbar series" style="width:89.51%"></div></div><div class="hbar-value">25.5%</div></div><div class="hbar-row"><div class="hbar-label">Ohio</div><div class="hbar-track" data-tip="OH: 91 of 352 claims referred (25.9%)"><div class="hbar series" style="width:90.91%"></div></div><div class="hbar-value">25.9%</div></div>
+  <div class="table-wrap"><table><thead><tr><th class="">State</th><th class="num">Claims</th><th class="num">Paid</th><th class="num">Closed, no pay</th><th class="num">Open</th><th class="num">Avg days to close</th></tr></thead><tbody><tr><td class="">IL</td><td class="num">338</td><td class="num">218</td><td class="num">30</td><td class="num">90</td><td class="num">30.8</td></tr><tr><td class="">IN</td><td class="num">310</td><td class="num">199</td><td class="num">37</td><td class="num">74</td><td class="num">33.4</td></tr><tr><td class="">OH</td><td class="num">352</td><td class="num">206</td><td class="num">44</td><td class="num">102</td><td class="num">32.7</td></tr></tbody></table></div>
+</section>
+</div>
+
+<section class="card">
+  <h2>Control log</h2>
+  <p class="sub">Executed from config/control_matrix.csv. CTL-09 (segregation of duties) is a human sign-off by design.</p>
+  <div class="table-wrap"><table><thead><tr><th class="">Control</th><th class="">Name</th><th class="">Type</th><th class="">Result</th><th class="">Detail</th></tr></thead><tbody><tr><td class="">CTL-01</td><td class="">Source load completeness</td><td class="">Detective</td><td><span class="chip good"><span aria-hidden="true">&#10003;</span> PASS</span></td><td class="">2011 rows loaded across 3 tables</td></tr><tr><td class="">CTL-02</td><td class="">Blocking data quality checks</td><td class="">Preventive</td><td><span class="chip good"><span aria-hidden="true">&#10003;</span> PASS</span></td><td class="">22 of 22 rules pass on policy_claims_clean</td></tr><tr><td class="">CTL-03</td><td class="">Warning review</td><td class="">Detective</td><td><span class="chip good"><span aria-hidden="true">&#10003;</span> PASS</span></td><td class="">0 warning(s) open</td></tr><tr><td class="">CTL-04</td><td class="">Report control totals</td><td class="">Detective</td><td><span class="chip good"><span aria-hidden="true">&#10003;</span> PASS</span></td><td class="">6 reports tie to source; 1 within rounding tolerance</td></tr><tr><td class="">CTL-05</td><td class="">GL reconciliation</td><td class="">Detective</td><td><span class="chip good"><span aria-hidden="true">&#10003;</span> PASS</span></td><td class="">7 of 9 GL lines tie; 2 explained break(s)</td></tr><tr><td class="">CTL-06</td><td class="">Cross-report consistency</td><td class="">Detective</td><td><span class="chip good"><span aria-hidden="true">&#10003;</span> PASS</span></td><td class="">5 cross-report checks</td></tr><tr><td class="">CTL-07</td><td class="">Filing timeliness</td><td class="">Preventive</td><td><span class="chip good"><span aria-hidden="true">&#10003;</span> PASS</span></td><td class="">6 of 6 reports on track as of 2015-04-06</td></tr><tr><td class="">CTL-08</td><td class="">File integrity</td><td class="">Preventive</td><td><span class="chip good"><span aria-hidden="true">&#10003;</span> PASS</span></td><td class="">16 files checksummed and verified</td></tr><tr><td class="">CTL-09</td><td class="">Segregation of duties</td><td class="">Preventive</td><td><span class="chip warn"><span aria-hidden="true">&#9679;</span> PENDING SIGN-OFF</span></td><td class="">Preparer and reviewer sign signoff_checklist.md</td></tr><tr><td class="">CTL-10</td><td class="">Change control</td><td class="">Preventive</td><td><span class="chip good"><span aria-hidden="true">&#10003;</span> PASS</span></td><td class="">Code version f473d7c</td></tr></tbody></table></div>
+</section>
+
+<footer>
+  Data: <a href="https://www.kaggle.com/datasets/buntyshah/auto-insurance-claims-data">Auto Insurance Claims Data</a> (Kaggle, buntyshah); claim status and general ledger simulated with a fixed seed; data issues planted on purpose so the controls have something to catch. Report formats are simplified educational versions of real filings.<br>
+  Built 2026-11-16 17:41 by <code>src/build_dashboard.py</code> &middot; Abrar Ahmed Syed &middot;
+  <a href="https://www.linkedin.com/in/abrar313">LinkedIn</a> &middot; <a href="https://abuabrar09.github.io">Portfolio</a> &middot; <a href="https://github.com/Abuabrar09/Insurance-Regulatory-Reporting-Control-Tower">GitHub</a>
+</footer>
+</div>
+<div id="tip" role="tooltip"></div>
+<script>
+const tip = document.getElementById('tip');
+document.querySelectorAll('[data-tip]').forEach(el => {
+  el.addEventListener('mousemove', e => {
+    tip.textContent = el.dataset.tip; tip.style.display = 'block';
+    const x = Math.min(e.clientX + 14, window.innerWidth - tip.offsetWidth - 8);
+    tip.style.left = x + 'px'; tip.style.top = (e.clientY + 14) + 'px';
+  });
+  el.addEventListener('mouseleave', () => tip.style.display = 'none');
+});
+</script>
+</body>
+</html>
