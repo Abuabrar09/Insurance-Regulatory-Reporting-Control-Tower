@@ -1,0 +1,2 @@
+rule_id,policy_number,reason,disposition,approved_by,approved_date,review_by
+DQ-11,794731,Incident date 2015-02-02 is 20 days before policy bind date 2015-02-22 in source data,Referred to Claims and Underwriting for coverage review; claim kept in reporting until review concludes,Compliance (simulated),2015-04-03,2015-06-30

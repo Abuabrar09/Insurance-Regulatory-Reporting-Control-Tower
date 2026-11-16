@@ -95,8 +95,16 @@ def main():
     for old in EXCEPTIONS.glob("DQ-*.csv"):
         old.unlink()
 
+    approved = pd.read_csv(ROOT / "config" / "approved_exceptions.csv")
+
     results = []
     for rule_id, check, rule, severity, failing, tested, note in run_rules(c, s):
+        # remove rows covered by an approved exception, but keep count in the note
+        ok = approved.loc[approved["rule_id"] == rule_id, "policy_number"]
+        waived = int(failing["policy_number"].isin(ok).sum())
+        failing = failing[~failing["policy_number"].isin(ok)]
+        if waived:
+            note = f"{note} {waived} approved exception(s)".strip()
         status = "PASS" if failing.empty else "FAIL"
         if not failing.empty:
             failing.to_csv(EXCEPTIONS / f"{rule_id}.csv", index=False)
