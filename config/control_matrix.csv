@@ -1,0 +1,11 @@
+control_id,control_name,objective,control_type,automated,pipeline_step,performed_by,reviewed_by,evidence,linked_rules
+CTL-01,Source load completeness,Rows loaded equal rows in source file,Detective,Yes,load,Regulatory Reporting,Data & Analytics,load_log.csv,BR-01
+CTL-02,Blocking data quality checks,All blocking DQ rules pass before reports are produced,Preventive,Yes,validate,Regulatory Reporting,Compliance,dq_results.csv,DQ-01 to DQ-13; DQ-22
+CTL-03,Warning review,Every DQ warning has a documented disposition,Detective,No,validate,Regulatory Reporting,Compliance,dq_warnings_review.csv,DQ-14 to DQ-21
+CTL-04,Report control totals,Each report total equals the validated source total,Detective,Yes,produce,Regulatory Reporting,Actuarial,report_control_totals.csv,BR-03; BR-04
+CTL-05,GL reconciliation,Report premium and losses tie to GL by state within tolerance,Detective,Yes,reconcile,Regulatory Reporting,Accounting,recon_results.csv,BR-09
+CTL-06,Cross-report consistency,Shared figures agree across RPT-01; RPT-02; RPT-05; RPT-06,Detective,Yes,reconcile,Regulatory Reporting,Actuarial,cross_report_check.csv,BR-04
+CTL-07,Filing timeliness,Reports ready at least 5 business days before due date,Preventive,Yes,controls,Regulatory Reporting,Compliance,filing_calendar.csv,BR-10
+CTL-08,File integrity,SHA-256 checksum of submitted file matches reviewed file,Preventive,Yes,submit,Regulatory Reporting,Legal,manifest.csv,BR-10
+CTL-09,Segregation of duties,Preparer and reviewer are different people,Preventive,No,submit,Regulatory Reporting,Compliance,signoff_checklist.md,BR-10
+CTL-10,Change control,Changes to SQL; rules or code are made through reviewed git commits,Preventive,No,all,Regulatory Reporting,Technology,git log,BR-10
