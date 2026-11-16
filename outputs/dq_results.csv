@@ -1,0 +1,23 @@
+table_checked,rule_id,check,rule,severity,rows_tested,rows_failed,result,note
+policy_claims,DQ-01,Completeness,policy_number not null,Blocking,1002,0,PASS,
+policy_claims,DQ-02,Completeness,policy_state not null,Blocking,1002,5,FAIL,
+policy_claims,DQ-03,Completeness,policy_annual_premium not null,Blocking,1002,0,PASS,
+policy_claims,DQ-04,Completeness,incident_date not null,Blocking,1002,0,PASS,
+policy_claims,DQ-05,Completeness,total_claim_amount not null,Blocking,1002,0,PASS,
+policy_claims,DQ-06,Uniqueness,policy_number is unique,Blocking,1002,4,FAIL,
+policy_claims,DQ-07,Validity,"policy_state in IL, IN, OH",Blocking,1002,0,PASS,
+policy_claims,DQ-08,Validity,policy_annual_premium > 0,Blocking,1002,3,FAIL,
+policy_claims,DQ-09,Validity,total_claim_amount >= 0,Blocking,1002,0,PASS,
+policy_claims,DQ-10,Consistency,total_claim_amount = injury + property + vehicle,Blocking,1002,3,FAIL,
+policy_claims,DQ-11,Date logic,incident_date >= policy_bind_date,Blocking,1002,4,FAIL,
+policy_claims,DQ-12,Date logic,incident_date within 2015Q1,Blocking,1002,0,PASS,
+policy_claims,DQ-13,Validity,"fraud_reported in (Y, N)",Blocking,1002,0,PASS,
+policy_claims,DQ-14,Date logic,report_date >= incident_date,Warning,1000,0,PASS,
+policy_claims,DQ-15,Date logic,close_date >= report_date when present,Warning,1000,0,PASS,
+policy_claims,DQ-16,Consistency,CLOSED has close_date; OPEN does not,Warning,1000,0,PASS,
+policy_claims,DQ-17,Validity,paid_amount and reserve_amount >= 0,Warning,1000,0,PASS,
+policy_claims,DQ-18,Unknown values,police_report_available '?' share < 40%,Warning,1002,0,PASS,share 34.2%
+policy_claims,DQ-19,Unknown values,property_damage '?' share < 40%,Warning,1002,0,PASS,share 36.0%
+policy_claims,DQ-20,Unknown values,collision_type '?' share < 25%,Warning,1002,0,PASS,share 17.8%
+policy_claims,DQ-21,Outliers,"total_claim_amount <= 150,000",Warning,1002,0,PASS,
+policy_claims,DQ-22,Referential,every claim_status row links to a policy,Blocking,1000,0,PASS,
