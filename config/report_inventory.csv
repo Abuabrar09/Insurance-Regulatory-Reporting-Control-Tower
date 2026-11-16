@@ -1,0 +1,7 @@
+report_id,report_name,recipient,report_type,frequency,due_rule,due_date_2015Q1,preparer_team,reviewer_team,source_tables,key_reconciliation
+RPT-01,State Premium & Loss Summary,State Insurance Departments (simulated),Regulatory,Quarterly,45 days after quarter end,2015-05-15,Regulatory Reporting,Accounting,policies; claims; gl_trial_balance,Premium and losses paid tie to GL by state
+RPT-02,Claims Statistical Report,Statistical Agent (simulated),Statistical,Quarterly,60 days after quarter end,2015-05-30,Regulatory Reporting,Actuarial,policies; claims,Claim counts and amounts tie to RPT-01
+RPT-03,Market Conduct Claims Report,State Insurance Departments (simulated),Regulatory,Quarterly monitoring,45 days after quarter end,2015-05-15,Regulatory Reporting,Claims; Compliance,claims; claim_status,Opened = closed + still open
+RPT-04,Fraud Referral Summary,State Fraud Bureaus (simulated),Regulatory,Quarterly,30 days after quarter end,2015-04-30,Regulatory Reporting,Claims SIU; Legal,claims,Fraud counts tie to claims population
+RPT-05,Quarterly Loss Ratio Report,Internal Finance,Internal,Quarterly,15 days after quarter end,2015-04-15,Regulatory Reporting,Accounting; Actuarial,policies; claims; gl_trial_balance,Losses and premium tie to GL
+RPT-06,Regulator Data Call,State Insurance Department (simulated),Data call,Ad hoc,Per request letter,2015-04-20,Regulatory Reporting,Legal; Compliance,claims; policies,Totals tie to RPT-01 for same state
