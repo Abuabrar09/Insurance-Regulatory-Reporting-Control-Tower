@@ -31,7 +31,7 @@ A one-command pipeline that turns raw policy and claims data into **validated, r
 6. Ad hoc Regulator Data Call
 
 ## Data
-- **Policy & claims data:** [Auto Insurance Claims Data](https://www.kaggle.com/) (Kaggle): 1,000 policies, 40 columns
+- **Policy & claims data:** [Auto Insurance Claims Data](https://www.kaggle.com/datasets/buntyshah/auto-insurance-claims-data) by buntyshah on Kaggle (Kaggle): 1,000 policies, 40 columns
 - **Simulated tables:** claim status/timing and general ledger trial balance, generated in Python with a fixed seed
 
 > ⚠️ Report formats are simplified educational versions of real filings, not official regulatory submissions. GL and claim status data are simulated for demonstration.
