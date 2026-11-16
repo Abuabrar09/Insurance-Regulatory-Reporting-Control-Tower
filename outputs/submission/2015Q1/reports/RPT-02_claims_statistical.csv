@@ -1,0 +1,31 @@
+state,incident_type,incident_severity,claim_count,injury_amount,property_amount,vehicle_amount,total_amount
+IL,Multi-vehicle Collision,Major Damage,49,485720,471520,2241400,3198640
+IL,Multi-vehicle Collision,Minor Damage,50,418420,422070,2200260,3040750
+IL,Multi-vehicle Collision,Total Loss,54,485670,435050,2277750,3198470
+IL,Parked Car,Minor Damage,10,7980,6790,34280,49050
+IL,Parked Car,Trivial Damage,15,9610,9110,54070,72790
+IL,Single Vehicle Collision,Major Damage,43,369920,381900,1986740,2738560
+IL,Single Vehicle Collision,Minor Damage,44,424810,422820,2072980,2920610
+IL,Single Vehicle Collision,Total Loss,40,361950,325620,1776300,2463870
+IL,Vehicle Theft,Minor Damage,12,9500,9520,44290,63310
+IL,Vehicle Theft,Trivial Damage,21,15050,16320,83910,115280
+IN,Multi-vehicle Collision,Major Damage,45,378620,399060,1932680,2710360
+IN,Multi-vehicle Collision,Minor Damage,36,340280,296290,1654240,2290810
+IN,Multi-vehicle Collision,Total Loss,42,329830,345410,1862710,2537950
+IN,Parked Car,Minor Damage,20,17440,19070,82770,119280
+IN,Parked Car,Trivial Damage,11,7550,7980,40760,56290
+IN,Single Vehicle Collision,Major Damage,40,405830,376120,2045780,2827730
+IN,Single Vehicle Collision,Minor Damage,43,397480,349810,1997120,2744410
+IN,Single Vehicle Collision,Total Loss,45,439560,446290,2095270,2981120
+IN,Vehicle Theft,Minor Damage,13,11440,10360,58500,80300
+IN,Vehicle Theft,Trivial Damage,15,11620,10480,61810,83910
+OH,Multi-vehicle Collision,Major Damage,50,415470,451660,2198960,3066090
+OH,Multi-vehicle Collision,Minor Damage,44,401880,385830,1884560,2672270
+OH,Multi-vehicle Collision,Total Loss,49,424430,436760,2249380,3110570
+OH,Parked Car,Minor Damage,12,7840,8930,41210,57980
+OH,Parked Car,Trivial Damage,16,11820,12020,66660,90500
+OH,Single Vehicle Collision,Major Damage,49,399090,465270,2276800,3141160
+OH,Single Vehicle Collision,Minor Damage,49,434150,430650,2198500,3063300
+OH,Single Vehicle Collision,Total Loss,50,385550,423300,2281910,3090760
+OH,Vehicle Theft,Minor Damage,21,17420,15760,84260,117440
+OH,Vehicle Theft,Trivial Damage,12,7490,7800,43090,58380

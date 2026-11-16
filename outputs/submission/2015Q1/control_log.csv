@@ -1,0 +1,11 @@
+period,control_id,control_name,control_type,automated,performed_by,reviewed_by,evidence,result,detail,executed_at
+2015Q1,CTL-01,Source load completeness,Detective,Yes,Regulatory Reporting,Data & Analytics,load_log.csv,PASS,2011 rows loaded across 3 tables,2026-11-16T17:28:54
+2015Q1,CTL-02,Blocking data quality checks,Preventive,Yes,Regulatory Reporting,Compliance,dq_results.csv,PASS,22 of 22 rules pass on policy_claims_clean,2026-11-16T17:28:54
+2015Q1,CTL-03,Warning review,Detective,No,Regulatory Reporting,Compliance,dq_warnings_review.csv,PASS,0 warning(s) open,2026-11-16T17:28:54
+2015Q1,CTL-04,Report control totals,Detective,Yes,Regulatory Reporting,Actuarial,report_control_totals.csv,PASS,6 reports tie to source; 1 within rounding tolerance,2026-11-16T17:28:54
+2015Q1,CTL-05,GL reconciliation,Detective,Yes,Regulatory Reporting,Accounting,recon_results.csv,PASS,7 of 9 GL lines tie; 2 explained break(s),2026-11-16T17:28:54
+2015Q1,CTL-06,Cross-report consistency,Detective,Yes,Regulatory Reporting,Actuarial,cross_report_check.csv,PASS,5 cross-report checks,2026-11-16T17:28:54
+2015Q1,CTL-07,Filing timeliness,Preventive,Yes,Regulatory Reporting,Compliance,filing_calendar.csv,PASS,6 of 6 reports on track as of 2015-04-06,2026-11-16T17:28:54
+2015Q1,CTL-08,File integrity,Preventive,Yes,Regulatory Reporting,Legal,manifest.csv,PASS,16 files checksummed and verified,2026-11-16T17:28:54
+2015Q1,CTL-09,Segregation of duties,Preventive,No,Regulatory Reporting,Compliance,signoff_checklist.md,PENDING SIGN-OFF,Preparer and reviewer sign signoff_checklist.md,2026-11-16T17:28:54
+2015Q1,CTL-10,Change control,Preventive,No,Regulatory Reporting,Technology,git log,PASS,Code version f473d7c,2026-11-16T17:28:54

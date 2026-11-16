@@ -1,0 +1,4 @@
+state,claims_reported,closed_with_payment,closed_without_payment,open_at_period_end,avg_days_to_close,pct_closed_within_30_days
+IL,338,218,30,90,30.8,54.8
+IN,310,199,37,74,33.4,50.0
+OH,352,206,44,102,32.7,48.8

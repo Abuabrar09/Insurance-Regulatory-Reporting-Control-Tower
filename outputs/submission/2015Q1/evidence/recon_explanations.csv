@@ -1,0 +1,3 @@
+state,account_code,explanation,owner,status,correcting_entry_due
+IL,5100,"$2,500 claim payment for an Indiana policy was posted to the Illinois losses-paid account; report figures are correct, GL is wrong",Accounting,Correcting journal entry raised,2015-04-10
+IN,5100,"Offsetting side of the IL misposting: $2,500 Indiana claim payment missing from the Indiana losses-paid account",Accounting,Correcting journal entry raised,2015-04-10

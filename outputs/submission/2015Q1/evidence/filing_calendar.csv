@@ -1,0 +1,7 @@
+report_id,report_name,recipient,frequency,due_date,preparer_team,reviewer_team,as_of,business_days_left,status,report_produced
+RPT-01,State Premium & Loss Summary,State Insurance Departments (simulated),Quarterly,2015-05-15,Regulatory Reporting,Accounting,2015-04-06,29,On track,Yes
+RPT-02,Claims Statistical Report,Statistical Agent (simulated),Quarterly,2015-05-30,Regulatory Reporting,Actuarial,2015-04-06,40,On track,Yes
+RPT-03,Market Conduct Claims Report,State Insurance Departments (simulated),Quarterly monitoring,2015-05-15,Regulatory Reporting,Claims; Compliance,2015-04-06,29,On track,Yes
+RPT-04,Fraud Referral Summary,State Fraud Bureaus (simulated),Quarterly,2015-04-30,Regulatory Reporting,Claims SIU; Legal,2015-04-06,18,On track,Yes
+RPT-05,Quarterly Loss Ratio Report,Internal Finance,Quarterly,2015-04-15,Regulatory Reporting,Accounting; Actuarial,2015-04-06,7,On track,Yes
+RPT-06,Regulator Data Call,State Insurance Department (simulated),Ad hoc,2015-04-20,Regulatory Reporting,Legal; Compliance,2015-04-06,10,On track,Yes
