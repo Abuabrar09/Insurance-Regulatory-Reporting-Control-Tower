@@ -1,0 +1,18 @@
+rule_id,policy_number,field,original_value,planted_value
+DQ-02,209177,policy_state,IN,
+DQ-02,594988,policy_state,IN,
+DQ-02,409074,policy_state,OH,
+DQ-02,574637,policy_state,IL,
+DQ-02,907012,policy_state,OH,
+DQ-08,498140,policy_annual_premium,769.95,-769.95
+DQ-08,265437,policy_annual_premium,1319.81,-1319.81
+DQ-08,538466,policy_annual_premium,1191.8,-1191.8
+DQ-10,487356,total_claim_amount,77660,78660
+DQ-10,776860,total_claim_amount,74700,75700
+DQ-10,840806,total_claim_amount,6820,7820
+DQ-11,689500,policy_bind_date,2003-01-28,2015-03-15
+DQ-11,168151,policy_bind_date,1995-04-24,2015-03-15
+DQ-11,420815,policy_bind_date,2000-11-15,2015-03-15
+DQ-06,516959,policy_number,1 row,2 rows
+DQ-06,735307,policy_number,1 row,2 rows
+CTL-05,,GL 5100 Losses Paid,IN / IL,"2,500 misposted from IN to IL"

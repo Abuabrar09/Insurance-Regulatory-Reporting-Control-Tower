@@ -1,0 +1,4 @@
+run_timestamp,table,source_file,source_sha256,source_rows,loaded_rows,ctl01_result
+2026-11-16T16:48:42,policy_claims,data/generated/policy_claims.csv,94fea3c887d62cc0a57095f6ae382392b75bb9134bb56a2cc7f295893cf47942,1002,1002,PASS
+2026-11-16T16:48:42,claim_status,data/generated/claim_status.csv,bdae7370486cca39bbaad83ceca77afb2caac9b154c379a8aa4735b7eb33870f,1000,1000,PASS
+2026-11-16T16:48:42,gl_trial_balance,data/generated/gl_trial_balance.csv,f9445520c5d1d40fd54c569d0dd3880a01d8469d7a59f92fd55a40882ca366d0,9,9,PASS
