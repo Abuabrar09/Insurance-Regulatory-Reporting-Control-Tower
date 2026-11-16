@@ -11,7 +11,7 @@
 | BR-06 | Closed without payment = CLOSED status with `paid_amount` = 0 |
 | BR-07 | Days to close = `close_date` − `report_date` |
 | BR-08 | Fraud referral = `fraud_reported` = Y |
-| BR-09 | Reconciliation tolerance: absolute variance ≤ $1 **or** ≤ 0.1% of GL balance |
+| BR-09 | Reconciliation tolerance: absolute variance ≤ $1.00 (a 0.1% tolerance was rejected: on a $10M balance it would hide a $2,500 misposting) |
 | BR-10 | Any blocking DQ failure or unexplained reconciliation break stops submission |
 
 ## Data quality rules

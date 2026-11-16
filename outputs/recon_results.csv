@@ -1,0 +1,10 @@
+period,state,account_code,account_name,report_value,gl_value,difference,within_tolerance,explanation,owner,status,correcting_entry_due,ctl05_result
+2015Q1,IL,4100,Premium Earned,105889.95,105889.95,0.0,True,,,,,PASS
+2015Q1,IL,5100,Losses Paid,12893023.31,12895523.31,-2500.0,False,"$2,500 claim payment for an Indiana policy was posted to the Illinois losses-paid account; report figures are correct, GL is wrong",Accounting,Correcting journal entry raised,2015-04-10,BREAK - EXPLAINED
+2015Q1,IL,2100,Loss Reserves,3211026.69,3211026.69,0.0,True,,,,,PASS
+2015Q1,IN,4100,Premium Earned,97293.07,97293.07,0.0,True,,,,,PASS
+2015Q1,IN,5100,Losses Paid,11394546.75,11392046.75,2500.0,False,"Offsetting side of the IL misposting: $2,500 Indiana claim payment missing from the Indiana losses-paid account",Accounting,Correcting journal entry raised,2015-04-10,BREAK - EXPLAINED
+2015Q1,IN,2100,Loss Reserves,3017823.25,3017823.25,0.0,True,,,,,PASS
+2015Q1,OH,4100,Premium Earned,110918.51,110918.52,-0.01,True,,,,,PASS
+2015Q1,OH,5100,Losses Paid,11788149.08,11788149.08,0.0,True,,,,,PASS
+2015Q1,OH,2100,Loss Reserves,3938230.92,3938230.92,0.0,True,,,,,PASS

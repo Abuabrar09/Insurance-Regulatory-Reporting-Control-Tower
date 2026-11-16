@@ -1,0 +1,6 @@
+figure,report_a,value_a,report_b,value_b,difference,ctl06_result
+Incurred losses,RPT-01,52761940.0,RPT-02,52761940.0,0.0,PASS
+Incurred losses,RPT-01,52761940.0,RPT-05,52761940.0,0.0,PASS
+Earned premium,RPT-01,314101.53,RPT-05,314101.53,0.0,PASS
+Claim count,RPT-01,1000.0,RPT-03,1000.0,0.0,PASS
+Claim count,RPT-03,1000.0,RPT-04,1000.0,0.0,PASS
