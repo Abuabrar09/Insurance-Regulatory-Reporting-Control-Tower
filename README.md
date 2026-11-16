@@ -4,6 +4,8 @@
 
 ![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white) ![SQL](https://img.shields.io/badge/SQL-SQLite-003B57?logo=sqlite&logoColor=white) ![pandas](https://img.shields.io/badge/pandas-150458?logo=pandas&logoColor=white) ![Status](https://img.shields.io/badge/pipeline-passing-brightgreen)
 
+**[View the live results dashboard](https://abuabrar09.github.io/Insurance-Regulatory-Reporting-Control-Tower/)**
+
 ```bash
 python run_pipeline.py --period 2015Q1
 ```
